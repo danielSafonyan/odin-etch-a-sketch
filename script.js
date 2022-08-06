@@ -1,30 +1,62 @@
 let mode = 'black'
 const main = document.querySelector('main');
 const refreshButton = document.querySelector('#refresh');
+const saveButton = document.querySelector('#save');
+saveButton.addEventListener('click', saveDrawing);
 const displayedGridSize = document.querySelector('#gridSize');
 refreshButton.addEventListener('click', clearGrid);
 
+function saveDrawing() {
+    console.log('I was clicked.')
+    const drawedContent = document.querySelector('main').innerHTML;
+    download(drawedContent)
+}
+
+function download(text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + 
+    encodeURIComponent(text));
+    element.setAttribute('download', 'drawing.html');
+   
+     element.style.display = 'none';
+     document.body.appendChild(element);
+   
+     element.click();
+   
+     document.body.removeChild(element);
+   }
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
 function changeColor() {
     switch(mode) {
         case 'black':
             this.style['background-color'] = 'black';
             break;
-        case 'erase':
-            this.style['background-color'] = 'white';
+        case 'random':
+            this.style['background-color'] = getRandomColor();
             break;
-        case 'color':
-            this.style['background-color'] = 'red';
+        case 'own':
+            let ownColorInput = document.querySelector('input[name=head]');
+            this.style['background-color'] = ownColorInput.value;
             break;
     }
 }
 
 function drawGrid(gridSize=16) {
     let drawingArea = document.querySelector('.main-wrap');
-    console.log(main)
     drawingArea.remove();
     drawingArea = document.createElement('div');
-    drawingArea.classList.add('main-wrap');
+    drawingArea.classList.add('main-wrap'); 
+    let displaySettings = 'border: 1px solid black;width: 30vw;height: 30vw;display: flex;flex-wrap: wrap;';
+    drawingArea.style.cssText = displaySettings;
     let blockWidth = `width: calc(100%/${gridSize});`
     let blockHeight = `height: calc(100%/${gridSize});`
     for (let i = 0; i < gridSize * gridSize; i++) {
@@ -52,3 +84,9 @@ function changeGridSize() {
 }
 
 drawGrid();
+
+const colorSwitcher = document.querySelectorAll('input[name=penColor]');
+colorSwitcher.forEach( input => input.addEventListener('input', inputSwitchColor))
+function inputSwitchColor() {
+    mode = this.defaultValue
+}
