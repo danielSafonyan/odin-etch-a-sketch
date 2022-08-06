@@ -31,12 +31,12 @@ main {
     border: 1px solid black;
     width: 30vw;
     height: 30vw;
+    
+}
+
+main .main-wrap {
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
 }
 
-.block {
-    background-color: aquamarine;
-    width: calc(100% / 3);
-    height: calc(100% / 3);
-}
