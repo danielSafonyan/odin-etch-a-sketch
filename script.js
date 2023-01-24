@@ -1,4 +1,6 @@
+// color mode by default
 let mode = 'black'
+
 const main = document.querySelector('main');
 const refreshButton = document.querySelector('#refresh');
 const saveButton = document.querySelector('#save');
@@ -17,19 +19,16 @@ function download(text) {
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + 
     encodeURIComponent(text));
     element.setAttribute('download', 'drawing.html');
-   
-     element.style.display = 'none';
-     document.body.appendChild(element);
-   
-     element.click();
-   
-     document.body.removeChild(element);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
    }
 
 function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
